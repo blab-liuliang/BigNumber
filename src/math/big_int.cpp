@@ -99,7 +99,28 @@ namespace Math
 	// 运算符重载 "-"
 	big_int big_int::operator - (const big_int& rhs) const
 	{
-		return big_int();
+		if (m_bits.size() < rhs.m_bits.size())
+		{
+			printf("not support yet.");
+		}
+		else
+		{
+			// 取补码 + 1
+			big_int neg_rhs = rhs.neg_bits(m_bits.size());
+			big_int left = *this;
+
+			size_t max_size = std::max<size_t>(left.m_bits.size(), neg_rhs.m_bits.size());
+			big_int result = left + neg_rhs + big_int("1");
+
+			while (result.m_bits.size() > max_size)
+			{
+				result.m_bits.remove_right();
+			}
+
+			result.m_bits.remove_right_zero();
+
+			return result;
+		}
 	}
 
 	// 运算符重载 "*"
@@ -123,7 +144,14 @@ namespace Math
 	// 运算符重载 "/"
 	big_int big_int::operator / (const big_int& rhs) const
 	{
-		return big_int();
+		big_int left = *this;
+		for (size_t i = 0; i < rhs.m_bits.size(); i++)
+		{
+			if (rhs.m_bits[i])
+				left = left.right_shift(i);
+		}
+
+		return left;
 	}
 
 	// 左移操作
@@ -134,6 +162,27 @@ namespace Math
 		big_int result = *this;
 		for(int i=0; i<bit; i++)
 			result.m_bits.push_left(0);
+
+		return result;
+	}
+
+	// 右移操作
+	big_int big_int::right_shift(int bit) const
+	{
+		assert(bit >= 0 && bit < BIG_INT_MAX_BITS);
+
+		big_int result = *this;
+		for (int i = 0; i<bit; i++)
+			result.m_bits.remove_left();
+
+		return result;
+	}
+
+	// 按位取反
+	big_int big_int::neg_bits(int size) const
+	{
+		big_int result = *this;
+		result.m_bits.neg_bits(size);
 
 		return result;
 	}

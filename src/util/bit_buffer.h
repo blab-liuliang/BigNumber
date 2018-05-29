@@ -12,8 +12,14 @@ namespace Math
 		// 添加到右边(高位)
 		void push_right(uint8_t v);
 
+		// 移除右边(高位)
+		void remove_right();
+
 		// 添加到左边(低位)
 		void push_left(uint8_t v);
+
+		// 移除左边(低位)
+		void remove_left();
 
 		// 大小
 		size_t size() const { return m_bytes.size(); }
@@ -23,6 +29,9 @@ namespace Math
 
 		// 预分配内存空间
 		void reserve(size_t count) { m_bytes.reserve(count); }
+
+		// 按位取反
+		void neg_bits(int size);
 
 		// 移除高位0
 		void remove_right_zero();

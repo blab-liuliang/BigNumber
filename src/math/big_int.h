@@ -33,6 +33,12 @@ namespace Math
 		// 左移操作
 		big_int left_shift(int bit) const;
 
+		// 右移操作
+		big_int right_shift(int bit) const;
+
+		// 按位取反
+		big_int neg_bits(int size) const;
+
 		// 转换为字符串
 		string to_str() const;
 

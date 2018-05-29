@@ -22,6 +22,34 @@ namespace Math
 		m_bytes.insert(m_bytes.begin(), v);
 	}
 
+	// 移除左边(低位)
+	void bit_buffer::remove_left()
+	{
+		if(!m_bytes.empty())
+			m_bytes.erase(m_bytes.begin());
+	}
+
+	// 移除右边(高位)
+	void bit_buffer::remove_right()
+	{
+		assert(!m_bytes.empty());
+		m_bytes.pop_back();
+	}
+
+	// 按位取反
+	void bit_buffer::neg_bits(int size)
+	{
+		for (size_t i = 0; i < m_bytes.size(); i++)
+		{
+			m_bytes[i] = !m_bytes[i] ? 0 : 1;
+		}
+
+		while (m_bytes.size() < size)
+		{
+			push_right(1);
+		}
+	}
+
 	// 运算符重载
 	uint8_t bit_buffer::operator [] (size_t index) const
 	{
