@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <algorithm>
 
+#define BIG_INT_MAX_BITS 4096
+
 namespace Math
 {
 	// construct
@@ -35,6 +37,9 @@ namespace Math
 				assert(false);
 			}
 		}
+
+		// 移除高位0
+		m_bits.remove_right_zero();
 	}
 
 	big_int::~big_int()
@@ -100,7 +105,19 @@ namespace Math
 	// 运算符重载 "*"
 	big_int big_int::operator * (const big_int& rhs) const
 	{
-		return big_int();
+		big_int left = m_bits.size() > rhs.m_bits.size() ? *this : rhs;
+		big_int right = m_bits.size() > rhs.m_bits.size() ? rhs : *this;
+
+		big_int result("0");
+		for (size_t i = 0; i < right.m_bits.size(); i++)
+		{
+			if (right.m_bits[i])
+			{
+				result = result + left.left_shift(i);
+			}
+		}
+
+		return result;
 	}
 
 	// 运算符重载 "/"
@@ -109,8 +126,20 @@ namespace Math
 		return big_int();
 	}
 
+	// 左移操作
+	big_int big_int::left_shift(int bit) const
+	{
+		assert(bit >= 0 && bit < BIG_INT_MAX_BITS);
+
+		big_int result = *this;
+		for(int i=0; i<bit; i++)
+			result.m_bits.push_left(0);
+
+		return result;
+	}
+
 	// 转换为字符串
-	string big_int::to_str()
+	string big_int::to_str() const
 	{
 		string result;
 		char hex = '0';
@@ -119,20 +148,20 @@ namespace Math
 		int size = static_cast<int>(ceil(m_bits.size() / 4.f));
 		for (int i = 0; i < size; i++)
 		{
-			binary[0] = m_bits[i * 4 + 0] == 0 ? '0' : '1';
-			binary[1] = m_bits[i * 4 + 1] == 0 ? '0' : '1';
-			binary[2] = m_bits[i * 4 + 2] == 0 ? '0' : '1';
-			binary[3] = m_bits[i * 4 + 3] == 0 ? '0' : '1';
+			binary[3] = m_bits[i * 4 + 0] == 0 ? '0' : '1';
+			binary[2] = m_bits[i * 4 + 1] == 0 ? '0' : '1';
+			binary[1] = m_bits[i * 4 + 2] == 0 ? '0' : '1';
+			binary[0] = m_bits[i * 4 + 3] == 0 ? '0' : '1';
 
 			if (mapping_binary_to_hex(hex, binary))
-				result += hex;
+				result = hex + result;
 		}
 
 		return result;
 	}
 
 	// 映射hex字符到二进制字符集
-	bool big_int::mapping_hex_to_binary(string& result, char orig)
+	bool big_int::mapping_hex_to_binary(string& result, char orig) const
 	{
 		switch (orig)
 		{
@@ -165,7 +194,7 @@ namespace Math
 		return false;
 	}
 
-	bool big_int::mapping_binary_to_hex(char& result, string& orig)
+	bool big_int::mapping_binary_to_hex(char& result, string& orig) const
 	{
 		if		(orig == "0000") { result = '0';	return true; }
 		else if (orig == "0001") { result = '1';	return true; }

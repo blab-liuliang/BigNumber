@@ -30,13 +30,16 @@ namespace Math
 		// 运算符重载 "/"
 		big_int operator / (const big_int& rhs) const;
 
+		// 左移操作
+		big_int left_shift(int bit) const;
+
 		// 转换为字符串
-		string to_str();
+		string to_str() const;
 
 	private:
 		// hex字符与二进制字符集映射函数
-		bool mapping_hex_to_binary(string& result, char orig);
-		bool mapping_binary_to_hex(char& result, string& orig);
+		bool mapping_hex_to_binary(string& result, char orig) const;
+		bool mapping_binary_to_hex(char& result, string& orig) const;
 
 	private:
 		bool			m_is_negative;		// 暂不支持正负(当前假定全为正值)

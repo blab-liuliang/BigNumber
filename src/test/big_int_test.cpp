@@ -25,8 +25,8 @@ namespace Test
 	{
 		big_int left(lv);
 		big_int right(rv);
-		big_int add_result = left + right;
-		std::string result_str = add_result.to_str();
+		big_int sub_result = left - right;
+		std::string result_str = sub_result.to_str();
 		if (result_str != result)
 		{
 			printf("test failed  : [%s] line[%d]\n", filename, line);
@@ -41,8 +41,8 @@ namespace Test
 	{
 		big_int left(lv);
 		big_int right(rv);
-		big_int add_result = left + right;
-		std::string result_str = add_result.to_str();
+		big_int mul_result = left * right;
+		std::string result_str = mul_result.to_str();
 		if (result_str != result)
 		{
 			printf("test failed  : [%s] line[%d]\n", filename, line);
@@ -57,8 +57,8 @@ namespace Test
 	{
 		big_int left(lv);
 		big_int right(rv);
-		big_int add_result = left + right;
-		std::string result_str = add_result.to_str();
+		big_int div_result = left / right;
+		std::string result_str = div_result.to_str();
 		if (result_str != result)
 		{
 			printf("test failed  : [%s] line[%d]\n", filename, line);
