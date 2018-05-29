@@ -204,6 +204,9 @@ namespace Math
 	// ×ª»»Îª×Ö·û´®
 	string big_int::to_str() const
 	{
+		if (!m_bits.size())
+			return "0";
+
 		string result;
 		char hex = '0';
 		string binary; binary.resize(4);
