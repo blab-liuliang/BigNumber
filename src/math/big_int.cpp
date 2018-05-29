@@ -15,15 +15,19 @@ namespace Math
 	big_int::big_int(const string& value)
 		: m_is_negative(false)
 	{
+		// ‘§∑÷≈‰ƒ⁄¥Ê
+		m_bits.reserve(value.size() * 4);
+
 		string hex;
-		for (char c : value)
+		for (string::const_reverse_iterator it = value.rbegin(); it!=value.rend(); it++)
 		{
+			char c = *it;
 			if (mapping_hex_to_binary(hex, c))
 			{
-				m_bits.push_right(hex[0] == '0' ? 0 : 1);
-				m_bits.push_right(hex[1] == '0' ? 0 : 1);
-				m_bits.push_right(hex[2] == '0' ? 0 : 1);
 				m_bits.push_right(hex[3] == '0' ? 0 : 1);
+				m_bits.push_right(hex[2] == '0' ? 0 : 1);
+				m_bits.push_right(hex[1] == '0' ? 0 : 1);
+				m_bits.push_right(hex[0] == '0' ? 0 : 1);
 			}
 			else
 			{
@@ -56,17 +60,18 @@ namespace Math
 			}
 			else if (cur_value == 2)
 			{
-				result.m_bits.push_right(1);
-				base = 0;
+				result.m_bits.push_right(0);
+				base = 1;
 			}
 			else if (cur_value == 1)
 			{
-				result.m_bits.push_right(0);
-				base = 1;
+				result.m_bits.push_right(1);
+				base = 0;
 			}
 			else if (cur_value == 0)
 			{
 				// do nothing
+				result.m_bits.push_right(0);
 				assert(base == 0);
 			}
 			else

@@ -1,6 +1,5 @@
-#include "big_int.h"
-
-using namespace Math;
+#include "big_int_test.h"
+#include <assert.h>
 
 int main() 
 {
@@ -8,14 +7,13 @@ int main()
 	// 后期应支持十进制，二进制字符串。
 	// 或者可以支持任意进制，任意字符表达 例 三进制 "xyz"
 	// 并且应该支持转换为任意进制类型字符串。
-	big_int left("12");
-	big_int right("10");
-	big_int add_result = left + right;
-	big_int sub_result = left - right;
-	big_int mul_result = left * right;
-	big_int div_result = left / right;
+	TEST_BIG_INT_ADD("1", "9", "A");
 
-	printf("0x%s + 0x%s = 0x%s\n", left.to_str().c_str(), right.to_str().c_str(), add_result.to_str().c_str());
+	TEST_BIG_INT_SUB("A", "1", "9");
 
+	TEST_BIG_INT_MUL("2", "9", "12");
+
+	TEST_BIG_INT_DIV("9", "3", "3");
+	
 	system("PAUSE");
 }

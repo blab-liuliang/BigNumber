@@ -18,10 +18,16 @@ namespace Math
 		big_int(const string& value);
 		~big_int();
 
-		// 运算符重载 "+ - * /"
+		// 运算符重载 "+"
 		big_int operator + (const big_int& rhs) const;
+
+		// 运算符重载 "-"
 		big_int operator - (const big_int& rhs) const;
+
+		// 运算符重载 "*"
 		big_int operator * (const big_int& rhs) const;
+
+		// 运算符重载 "/"
 		big_int operator / (const big_int& rhs) const;
 
 		// 转换为字符串
