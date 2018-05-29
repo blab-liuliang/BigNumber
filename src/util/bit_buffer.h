@@ -31,7 +31,7 @@ namespace Math
 		void reserve(size_t count) { m_bytes.reserve(count); }
 
 		// 按位取反
-		void neg_bits(int size);
+		void neg_bits(size_t size);
 
 		// 移除高位0
 		void remove_right_zero();

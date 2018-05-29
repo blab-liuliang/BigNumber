@@ -37,11 +37,11 @@ namespace Math
 	}
 
 	// 按位取反
-	void bit_buffer::neg_bits(int size)
+	void bit_buffer::neg_bits(size_t size)
 	{
 		for (size_t i = 0; i < m_bytes.size(); i++)
 		{
-			m_bytes[i] = !m_bytes[i] ? 0 : 1;
+			m_bytes[i] = m_bytes[i] ? 0 : 1;
 		}
 
 		while (m_bytes.size() < size)

@@ -102,6 +102,7 @@ namespace Math
 		if (m_bits.size() < rhs.m_bits.size())
 		{
 			printf("not support yet.");
+			return big_int();
 		}
 		else
 		{
@@ -141,17 +142,30 @@ namespace Math
 		return result;
 	}
 
-	// 运算符重载 "/"
+	// 运算符重载 "/" (除法依赖于减法)
 	big_int big_int::operator / (const big_int& rhs) const
 	{
-		big_int left = *this;
-		for (size_t i = 0; i < rhs.m_bits.size(); i++)
+		big_int divisor = rhs;
+		big_int remainder;
+		big_int quotient;
+
+		for (int i = int(m_bits.size())-1; i >=0; i--)
 		{
-			if (rhs.m_bits[i])
-				left = left.right_shift(i);
+			remainder.m_bits.push_left(m_bits[i]);
+			if (remainder >= divisor)
+			{
+				quotient.m_bits.push_left(1);
+				remainder = remainder - divisor;
+			}
+			else
+			{
+				quotient.m_bits.push_left(0);
+			}
 		}
 
-		return left;
+		quotient.m_bits.remove_right_zero();
+
+		return quotient;
 	}
 
 	// 左移操作

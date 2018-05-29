@@ -42,6 +42,25 @@ namespace Math
 		// 转换为字符串
 		string to_str() const;
 
+	public:
+		// 比较运算符重载
+		friend bool operator >= (const big_int& lhs, const big_int& rhs)
+		{
+			if (lhs.m_bits.size() < rhs.m_bits.size())
+				return false;
+
+			if (lhs.m_bits.size() == rhs.m_bits.size())
+			{
+				for (int i = int(lhs.m_bits.size())-1; i >=0; i--)
+				{
+					if (lhs.m_bits[i] < rhs.m_bits[i])
+						return false;
+				}
+			}
+
+			return true;
+		}
+
 	private:
 		// hex字符与二进制字符集映射函数
 		bool mapping_hex_to_binary(string& result, char orig) const;
